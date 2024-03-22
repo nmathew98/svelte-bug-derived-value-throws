@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { derived, writable } from "svelte/store";
+	import { derived, writable, type Writable } from "svelte/store";
 	import Child from "./Child.svelte";
 
-	export let landingDispatch;
+	export let allData: Writable<any>;
 
 	const createId = () => Math.random().toString(36).substring(2);
 
@@ -74,29 +74,30 @@
 		};
 
 		data.set(updatedData);
+		allData.set([updatedData]);
 	};
 
-	const referenceType = {
-		data: 1,
-	};
-	const testReference = writable(referenceType);
+	// const referenceType = {
+	// 	data: 1,
+	// };
+	// const testReference = writable(referenceType);
 
-	testReference.subscribe(value => {
-		console.log("newValue reference", value);
-	});
+	// testReference.subscribe(value => {
+	// 	console.log("newValue reference", value);
+	// });
 
-	testReference.set(referenceType);
-	testReference.set(referenceType);
+	// testReference.set(referenceType);
+	// testReference.set(referenceType);
 
-	const primitiveType = 1;
-	const testPrimitive = writable(primitiveType);
+	// const primitiveType = 1;
+	// const testPrimitive = writable(primitiveType);
 
-	testPrimitive.subscribe(value => {
-		console.log("newValue primitive", value);
-	});
+	// testPrimitive.subscribe(value => {
+	// 	console.log("newValue primitive", value);
+	// });
 
-	testPrimitive.set(primitiveType);
-	testPrimitive.set(primitiveType);
+	// testPrimitive.set(primitiveType);
+	// testPrimitive.set(primitiveType);
 </script>
 
 <div>Current item id: {$currentItem.id}</div>
