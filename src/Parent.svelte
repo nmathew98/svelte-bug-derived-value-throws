@@ -2,6 +2,7 @@
 	import { derived, writable, type Writable } from "svelte/store";
 	import Child from "./Child.svelte";
 
+	export let initialValue: any;
 	export let allData: Writable<any>;
 
 	const createId = () => Math.random().toString(36).substring(2);
