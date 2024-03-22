@@ -9,4 +9,7 @@ export default defineConfig({
 			$lib: resolve("./src/lib"),
 		},
 	},
+	build: {
+		minify: false,
+	},
 });
