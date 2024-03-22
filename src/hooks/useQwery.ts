@@ -59,6 +59,8 @@ export const useQwery = ({ initialValue }: any): any => {
 
 			const result = value.crdt.dispatch(...args);
 
+			console.log("result", result);
+
 			return result;
 		},
 	});
