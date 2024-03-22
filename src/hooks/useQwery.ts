@@ -9,6 +9,8 @@ export const useQwery = ({ initialValue }: any): any => {
 				return;
 			}
 
+			console.log("Here!", result);
+
 			qwery.set(result);
 		});
 
@@ -26,7 +28,8 @@ export const useQwery = ({ initialValue }: any): any => {
 			dispatch(f) {
 				this.data = f(this.data);
 
-				rerender();
+				// TODO: Problematic
+				// rerender();
 
 				return this.data;
 			},
