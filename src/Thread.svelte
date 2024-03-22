@@ -111,26 +111,30 @@
 			) as Thread;
 
 			// TODO: Problematic line here
-			// landingDispatch(
-			// 	allThreads => {
-			// 		// const currentThread = allThreads.find(
-			// 		// 	thread => thread.uuid === latest.uuid,
-			// 		// ) as Thread;
+			// This line runs and `allThreads` is correct
+			// but if we call `landingDispatch` then it seems to break something
+			landingDispatch(
+				allThreads => {
+					// const currentThread = allThreads.find(
+					// 	thread => thread.uuid === latest.uuid,
+					// ) as Thread;
 
-			// 		// currentThread.children = latest.children;
+					// currentThread.children = latest.children;
 
-			// 		// return allThreads.map(thread => {
-			// 		// 	if (thread.uuid === currentThread.uuid) {
-			// 		// 		return { ...currentThread };
-			// 		// 	}
+					// return allThreads.map(thread => {
+					// 	if (thread.uuid === currentThread.uuid) {
+					// 		return { ...currentThread };
+					// 	}
 
-			// 		// 	return thread;
-			// 		// });
+					// 	return thread;
+					// });
 
-			// 		return allThreads;
-			// 	},
-			// 	{ isPersisted: true },
-			// );
+					console.log(allThreads);
+
+					return allThreads;
+				},
+				{ isPersisted: true },
+			);
 
 			content = "";
 
