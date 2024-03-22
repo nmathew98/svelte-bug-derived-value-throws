@@ -13,74 +13,79 @@
 	// We have many main `Thread`s and each `Thread` can have zero or more
 	// child `Thread`s
 
-	const data = writable([
-		{
-			id: "1",
-			content: "HELLO",
-			children: [
-				{
-					id: "3",
-					content: "WORLD",
-				},
-				{
-					id: "2",
-					content: "!!!!!!!!!",
-				},
-			],
-		},
-	]);
-
-	data.subscribe(newValue => {
-		console.log("new all data", newValue);
-	});
-	// const { data, dispatch } = useQwery({
-	// 	queryKey: "threads",
-	// 	initialValue: getAllThreads, // Get all main threads
-	// 	onChange: async next => {
-	// 		const newItemIdx = next.findIndex(thread => !thread.uuid);
-
-	// 		const result = await upsertThread(next[newItemIdx]);
-
-	// 		return result;
+	// const data = writable([
+	// 	{
+	// 		id: "1",
+	// 		content: "HELLO",
+	// 		children: [
+	// 			{
+	// 				id: "3",
+	// 				content: "WORLD",
+	// 			},
+	// 			{
+	// 				id: "2",
+	// 				content: "!!!!!!!!!",
+	// 			},
+	// 		],
 	// 	},
-	// 	onSuccess: (next, _previous, result) =>
-	// 		next.map(thread => {
-	// 			if (!thread.uuid) {
-	// 				return {
-	// 					...thread,
-	// 					...result,
-	// 				};
-	// 			}
+	// ]);
 
-	// 			return thread;
-	// 		}),
-	// 	broadcast: true,
-	// });
-
-	// let previousData = data;
 	// data.subscribe(newValue => {
-	// 	console.log("previousData", previousData);
-	// 	console.log("newValue", newValue);
-	// 	console.log("previousData === newValue", previousData === newValue);
-
-	// 	previousData = newValue;
+	// 	console.log("new all data", newValue);
 	// });
+
+	const { data, dispatch } = useQwery({
+		queryKey: "threads",
+		initialValue: getAllThreads, // Get all main threads
+		onChange: async next => {
+			const newItemIdx = next.findIndex(thread => !thread.uuid);
+
+			const result = await upsertThread(next[newItemIdx]);
+
+			return result;
+		},
+		onSuccess: (next, _previous, result) =>
+			next.map(thread => {
+				if (!thread.uuid) {
+					return {
+						...thread,
+						...result,
+					};
+				}
+
+				return thread;
+			}),
+		broadcast: true,
+	});
+
+	let previousData = data;
+	data.subscribe(newValue => {
+		console.log("previousData", previousData);
+		console.log("newValue", newValue);
+		console.log("previousData === newValue", previousData === newValue);
+
+		previousData = newValue;
+	});
 
 	// $: allThreads = [...($data ?? [])]?.sort(
 	// 	(a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
 	// );
 </script>
 
-<!-- <ModeWatcher />
+<ModeWatcher />
 <div class="flex justify-center my-8 mx-4 sm:mx-0">
 	<div class="flex-col space-y-8">
 		<H1>My Feed</H1>
-		{#each allThreads as thread (thread.id)}
-			<Thread initialValue={thread} landingDispatch={dispatch} />
-		{/each}
-	</div>
-</div> -->
+		<NewThread {dispatch} />
 
-{#each $data as item (item.id)}
+		{#if $data}
+			{#each $data as thread (thread.uuid)}
+				<Thread initialValue={thread} landingDispatch={dispatch} />
+			{/each}
+		{/if}
+	</div>
+</div>
+
+<!-- {#each $data as item (item.id)}
 	<Parent allData={data} />
-{/each}
+{/each} -->
