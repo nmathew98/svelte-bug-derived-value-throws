@@ -13,50 +13,65 @@
 	// We have many main `Thread`s and each `Thread` can have zero or more
 	// child `Thread`s
 
-	const data = writable([
-		{
-			id: "1",
-			content: "HELLO",
-			children: [
-				{
-					id: "3",
-					content: "WORLD",
-				},
-				{
-					id: "2",
-					content: "!!!!!!!!!",
-				},
-			],
-		},
-	]);
+	// const data = writable([
+	// 	{
+	// 		id: "1",
+	// 		content: "HELLO",
+	// 		children: [
+	// 			{
+	// 				id: "3",
+	// 				content: "WORLD",
+	// 			},
+	// 			{
+	// 				id: "2",
+	// 				content: "!!!!!!!!!",
+	// 			},
+	// 		],
+	// 	},
+	// ]);
 
 	// data.subscribe(newValue => {
 	// 	console.log("new all data", newValue);
 	// });
 
-	// const { data, dispatch } = useQwery({
-	// 	queryKey: "threads",
-	// 	initialValue: getAllThreads, // Get all main threads
-	// 	onChange: async next => {
-	// 		const newItemIdx = next.findIndex(thread => !thread.uuid);
+	const { data, dispatch } = useQwery({
+		queryKey: "threads",
+		initialValue: [
+			{
+				id: "1",
+				content: "HELLO",
+				children: [
+					{
+						id: "3",
+						content: "WORLD",
+					},
+					{
+						id: "2",
+						content: "!!!!!!!!!",
+					},
+				],
+			},
+		], // Get all main threads
+		onChange: async next => {
+			const newItemIdx = next.findIndex(thread => !thread.uuid);
 
-	// 		const result = await upsertThread(next[newItemIdx]);
+			const result = await upsertThread(next[newItemIdx]);
 
-	// 		return result;
-	// 	},
-	// 	onSuccess: (next, _previous, result) =>
-	// 		next.map(thread => {
-	// 			if (!thread.uuid) {
-	// 				return {
-	// 					...thread,
-	// 					...result,
-	// 				};
-	// 			}
+			return result;
+		},
+		onSuccess: (next, _previous, result) =>
+			next.map(thread => {
+				if (!thread.uuid) {
+					return {
+						...thread,
+						...result,
+					};
+				}
 
-	// 			return thread;
-	// 		}),
-	// 	broadcast: true,
-	// });
+				return thread;
+			}),
+		broadcast: true,
+	});
 
 	// let previousData = data;
 	// data.subscribe(newValue => {
@@ -86,6 +101,10 @@
 	</div>
 </div> -->
 
-{#each $data as item (item.id)}
-	<Parent initialValue={item} allData={data} />
-{/each}
+<div class="mb-8">Data: {JSON.stringify($data, null, 2)}</div>
+
+{#if $data}
+	{#each $data as item (item.id)}
+		<Parent initialValue={item} landingDispatch={dispatch} />
+	{/each}
+{/if}

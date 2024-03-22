@@ -3,7 +3,8 @@
 	import Child from "./Child.svelte";
 
 	export let initialValue: any;
-	export let allData: Writable<any>;
+	// export let allData: Writable<any> | undefined;
+	export let landingDispatch: any;
 
 	const createId = () => Math.random().toString(36).substring(2);
 
@@ -75,7 +76,8 @@
 		};
 
 		data.set(updatedData);
-		allData.set([updatedData]);
+		landingDispatch(() => updatedData);
+		// allData.set([updatedData]);
 	};
 
 	// const referenceType = {
