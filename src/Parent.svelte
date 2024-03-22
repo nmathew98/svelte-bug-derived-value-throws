@@ -2,6 +2,8 @@
 	import { derived, writable } from "svelte/store";
 	import Child from "./Child.svelte";
 
+	export let landingDispatch;
+
 	const createId = () => Math.random().toString(36).substring(2);
 
 	const data = writable<any>({
@@ -72,6 +74,13 @@
 		};
 
 		data.set(updatedData);
+
+		// TODO: Problematic
+		landingDispatch(allThreads => {
+			console.log(allThreads);
+
+			return [updatedData];
+		});
 	};
 </script>
 

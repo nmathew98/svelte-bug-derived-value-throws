@@ -4,6 +4,7 @@
 	import { H1 } from "$lib/components/ui/typography";
 	import Thread from "./Thread.svelte";
 	import NewThread from "./NewThread.svelte";
+	import Parent from "./Parent.svelte";
 	import { ModeWatcher, setMode } from "mode-watcher";
 
 	setMode("dark");
@@ -35,6 +36,15 @@
 		broadcast: true,
 	});
 
+	let previousData = data;
+	data.subscribe(newValue => {
+		console.log("previousData", previousData);
+		console.log("newValue", newValue);
+		console.log("previousData === newValue", previousData === newValue);
+
+		previousData = newValue;
+	});
+
 	$: allThreads = [...($data ?? [])]?.sort(
 		(a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
 	);
@@ -51,3 +61,5 @@
 		{/each}
 	</div>
 </div>
+
+<!-- <Parent landingDispatch={dispatch} /> -->

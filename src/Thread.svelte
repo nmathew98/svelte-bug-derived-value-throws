@@ -113,6 +113,8 @@
 			// TODO: Problematic line here
 			// This line runs and `allThreads` is correct
 			// but if we call `landingDispatch` then it seems to break something
+			// Updating landing dispatch causes the entire `Thread` to rerender
+			// which breaks things
 			landingDispatch(
 				allThreads => {
 					// const currentThread = allThreads.find(
@@ -152,6 +154,19 @@
 			...thread,
 			children: [newThread, ...(thread.children ?? [])],
 		}));
+
+		// TODO: Problematic
+		// When we call `landingDispatch` the entire `Thread` rerenders
+		// Note: There is no change to `allThreads` but there is a rerender of the
+		// entire `Thread` from `App` which causes things to break
+		landingDispatch(
+			allThreads => {
+				console.log("allThreads", allThreads);
+
+				return allThreads;
+			},
+			{ isPersisted: true },
+		);
 
 		content = "";
 	};
