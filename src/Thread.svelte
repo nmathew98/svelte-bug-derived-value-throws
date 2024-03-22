@@ -156,14 +156,22 @@
 		}));
 
 		// TODO: Problematic
-		// When we call `landingDispatch` the entire `Thread` rerenders
-		// Note: There is no change to `allThreads` but there is a rerender of the
-		// entire `Thread` from `App` which causes things to break
+		// When we call `landingDispatch` the entire `Thread` rerenders which seems to
+		// break things
 		landingDispatch(
 			allThreads => {
 				console.log("allThreads", allThreads);
 
-				return allThreads;
+				return allThreads.map(thread => {
+					if (thread.uuid === $currentThread.uuid) {
+						return {
+							...thread,
+							children: [newThread, ...(thread.children ?? [])],
+						};
+					}
+
+					return thread;
+				});
 			},
 			{ isPersisted: true },
 		);

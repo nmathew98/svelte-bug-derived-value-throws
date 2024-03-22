@@ -50,7 +50,7 @@
 	);
 </script>
 
-<!-- <ModeWatcher />
+<ModeWatcher />
 <div class="flex justify-center my-8 mx-4 sm:mx-0">
 	<div class="flex-col space-y-8">
 		<H1>My Feed</H1>
@@ -60,6 +60,6 @@
 			<Thread initialValue={thread} landingDispatch={dispatch} />
 		{/each}
 	</div>
-</div> -->
+</div>
 
-<Parent landingDispatch={dispatch} />
+<!-- <Parent landingDispatch={dispatch} /> -->
