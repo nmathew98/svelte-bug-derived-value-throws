@@ -110,24 +110,27 @@
 				{ isPersisted: true },
 			) as Thread;
 
-			landingDispatch(
-				allThreads => {
-					const currentThread = allThreads.find(
-						thread => thread.uuid === latest.uuid,
-					) as Thread;
+			// TODO: Problematic line here
+			// landingDispatch(
+			// 	allThreads => {
+			// 		// const currentThread = allThreads.find(
+			// 		// 	thread => thread.uuid === latest.uuid,
+			// 		// ) as Thread;
 
-					currentThread.children = latest.children;
+			// 		// currentThread.children = latest.children;
 
-					return allThreads.map(thread => {
-						if (thread.uuid === currentThread.uuid) {
-							return { ...currentThread };
-						}
+			// 		// return allThreads.map(thread => {
+			// 		// 	if (thread.uuid === currentThread.uuid) {
+			// 		// 		return { ...currentThread };
+			// 		// 	}
 
-						return thread;
-					});
-				},
-				{ isPersisted: true },
-			);
+			// 		// 	return thread;
+			// 		// });
+
+			// 		return allThreads;
+			// 	},
+			// 	{ isPersisted: true },
+			// );
 
 			content = "";
 
@@ -213,16 +216,6 @@
 			</DialogHeader>
 			{#if $currentThread.children}
 				<div class="max-h-[50dvh] overflow-scroll flex-col space-y-8">
-					<!--
-						Having a separate derived store or reactive variable for the children
-						does not seem to work either
-
-						It also means every child will be rerendered since the store has been
-						updated
-
-						A reactive expression is reevaluated correctly, just the children are not
-						rerendered in the `each` block
-					-->
 					{#each $currentThread?.children as child (child.uuid)}
 						<ThreadChild
 							uuid={child.uuid}
@@ -233,15 +226,6 @@
 				</div>
 			{/if}
 			<div class="flex-col space-y-2">
-				<!--
-					TODO: when replying to a child, `content` does not get cleared even though
-					it is reassigned, unsure why
-
-					reassigning `replyTo` and `content` also does not to work
-
-					Unsure if this is a bug with Svelte or something wrong with the implementation,
-					when not replying, `content` is cleared correctly
-				-->
 				<Input
 					type="text"
 					bind:value={content}
