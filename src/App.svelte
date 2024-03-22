@@ -36,21 +36,21 @@
 		broadcast: true,
 	});
 
-	let previousData = data;
-	data.subscribe(newValue => {
-		console.log("previousData", previousData);
-		console.log("newValue", newValue);
-		console.log("previousData === newValue", previousData === newValue);
+	// let previousData = data;
+	// data.subscribe(newValue => {
+	// 	console.log("previousData", previousData);
+	// 	console.log("newValue", newValue);
+	// 	console.log("previousData === newValue", previousData === newValue);
 
-		previousData = newValue;
-	});
+	// 	previousData = newValue;
+	// });
 
 	$: allThreads = [...($data ?? [])]?.sort(
 		(a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
 	);
 </script>
 
-<ModeWatcher />
+<!-- <ModeWatcher />
 <div class="flex justify-center my-8 mx-4 sm:mx-0">
 	<div class="flex-col space-y-8">
 		<H1>My Feed</H1>
@@ -60,6 +60,6 @@
 			<Thread initialValue={thread} landingDispatch={dispatch} />
 		{/each}
 	</div>
-</div>
+</div> -->
 
-<!-- <Parent landingDispatch={dispatch} /> -->
+<Parent landingDispatch={dispatch} />

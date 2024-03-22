@@ -74,14 +74,29 @@
 		};
 
 		data.set(updatedData);
-
-		// TODO: Problematic
-		landingDispatch(allThreads => {
-			console.log(allThreads);
-
-			return [updatedData];
-		});
 	};
+
+	const referenceType = {
+		data: 1,
+	};
+	const testReference = writable(referenceType);
+
+	testReference.subscribe(value => {
+		console.log("newValue reference", value);
+	});
+
+	testReference.set(referenceType);
+	testReference.set(referenceType);
+
+	const primitiveType = 1;
+	const testPrimitive = writable(primitiveType);
+
+	testPrimitive.subscribe(value => {
+		console.log("newValue primitive", value);
+	});
+
+	testPrimitive.set(primitiveType);
+	testPrimitive.set(primitiveType);
 </script>
 
 <div>Current item id: {$currentItem.id}</div>
