@@ -2,17 +2,25 @@
 	import Child from "./Child.svelte";
 	import { writable } from "svelte/store";
 
+	function* id() {
+		for (let i = 1; i < Infinity; i++) {
+			yield i;
+		}
+	}
+	const idGenerator = id();
+	const createId = () => idGenerator.next().value;
+
 	const data = writable([
 		{
-			id: "1",
+			id: createId(),
 			content: "HELLO",
 			children: [
 				{
-					id: "3",
+					id: createId(),
 					content: "WORLD",
 				},
 				{
-					id: "2",
+					id: createId(),
 					content: "!!!!!!!!!",
 				},
 			],
@@ -35,7 +43,7 @@
 <div class="mb-8">Data: {JSON.stringify($data, null, 2)}</div>
 
 {#if $data}
-	{#each $data as item (item)}
+	{#each $data as item (item.id)}
 		<Child parentDispatch={dispatch} />
 	{/each}
 {/if}
