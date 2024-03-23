@@ -12,17 +12,7 @@
 		"clean": "rm -f *.tgz && rm -rf dist",
 		"format": "prettier .  --write"
 	},
-	"dependencies": {
-		"bits-ui": "^0.19.7",
-		"clsx": "^2.1.0",
-		"mode-watcher": "^0.3.0",
-		"svelte-radix": "^1.1.0",
-		"tailwind-merge": "^2.2.1",
-		"tailwind-variants": "^0.2.1",
-		"unstorage": "^1.10.2"
-	},
 	"devDependencies": {
-		"@faker-js/faker": "^8.4.1",
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@tsconfig/svelte": "^5.0.2",
 		"autoprefixer": "^10.4.16",
