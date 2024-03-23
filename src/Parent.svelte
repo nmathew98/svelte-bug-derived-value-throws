@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Child from "./Child.svelte";
 	import { writable } from "svelte/store";
+	import { useQwery } from "@b.s/svelte-qwery";
 
 	function* id() {
 		for (let i = 1; i < Infinity; i++) {
@@ -10,34 +11,53 @@
 	const idGenerator = id();
 	const createId = () => idGenerator.next().value;
 
-	const data = writable([
-		{
-			id: createId(),
-			content: "HELLO",
-			children: [
-				{
-					id: createId(),
-					content: "WORLD",
-				},
-				{
-					id: createId(),
-					content: "!!!!!!!!!",
-				},
-			],
-		},
-	]);
+	const { data, dispatch } = useQwery({
+		initialValue: [
+			{
+				id: createId(),
+				content: "HELLO",
+				children: [
+					{
+						id: createId(),
+						content: "WORLD",
+					},
+					{
+						id: createId(),
+						content: "!!!!!!!!!",
+					},
+				],
+			},
+		],
+		onChange: () => {},
+	});
+	// const data = writable([
+	// 	{
+	// 		id: createId(),
+	// 		content: "HELLO",
+	// 		children: [
+	// 			{
+	// 				id: createId(),
+	// 				content: "WORLD",
+	// 			},
+	// 			{
+	// 				id: createId(),
+	// 				content: "!!!!!!!!!",
+	// 			},
+	// 		],
+	// 	},
+	// ]);
 
 	data.subscribe(newValue => {
 		console.debug("Parent data", newValue);
 	});
 
-	const dispatch = f => {
-		const newValue = f($data);
+	// const dispatch = f => {
+	// 	const newValue = f($data);
 
-		data.set(newValue);
+	// 	data.set(newValue);
 
-		return data;
-	};
+	// 	return data;
+	// };
 </script>
 
 <div class="mb-8">Data: {JSON.stringify($data, null, 2)}</div>

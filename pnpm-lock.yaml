@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
+  '@b.s/svelte-qwery':
+    specifier: ^1.5.6
+    version: 1.5.6(svelte@4.2.12)
   '@sveltejs/vite-plugin-svelte':
     specifier: ^3.0.1
     version: 3.0.2(svelte@4.2.12)(vite@5.2.2)
@@ -66,6 +69,26 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
+    dev: true
+
+  /@b.s/incremental@2.1.8:
+    resolution: {integrity: sha512-k5w8qQPL/B9Vba+CBI4y7pQ7oumBsL7OEiZ2OM8HWBhyPfP7zeTeMxorGV8k4uGJQxvlXvcl9B1DCe/gV5FSKw==}
+    dependencies:
+      immer: 10.0.4
+    dev: true
+
+  /@b.s/svelte-qwery@1.5.6(svelte@4.2.12):
+    resolution: {integrity: sha512-nwIe+YSbyQ3oTkIOwVXCRzvGr9Ab7TaC+eWHNzeafO9B//AnfRC29R8QiPDmgRveowqrI4zbYVttgsqGAMpqIw==}
+    peerDependencies:
+      svelte: ^4.2.11
+    dependencies:
+      '@b.s/incremental': 2.1.8
+      '@b.s/txn': 1.0.4
+      svelte: 4.2.12
+    dev: true
+
+  /@b.s/txn@1.0.4:
+    resolution: {integrity: sha512-t1Vl8tgeVPe7oO6U2VuF9bC0Yqa5jzAiggj+IOdIQyNNLEP3N2IxtO/QoASX1UQ7f/DE+BF7Y0MviRyDRGW/Cg==}
     dev: true
 
   /@esbuild/aix-ppc64@0.20.2:
@@ -1189,6 +1212,10 @@ packages:
   /ignore@5.3.1:
     resolution: {integrity: sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==}
     engines: {node: '>= 4'}
+    dev: true
+
+  /immer@10.0.4:
+    resolution: {integrity: sha512-cuBuGK40P/sk5IzWa9QPUaAdvPHjkk1c+xYsd9oZw+YQQEV+10G0P5uMpGctZZKnyQ+ibRO08bD25nWLmYi2pw==}
     dev: true
 
   /import-fresh@3.3.0:

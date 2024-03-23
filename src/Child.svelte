@@ -96,7 +96,18 @@
 
 		data.set(updatedData);
 
-		parentDispatch(() => [updatedData]);
+		// parentDispatch(() => [updatedData]);
+
+		parentDispatch(
+			allData => {
+				const current = allData.find(
+					data => data.id === $currentItemId,
+				);
+
+				current.children = updatedData.children;
+			},
+			{ isPersisted: true },
+		);
 	};
 </script>
 
