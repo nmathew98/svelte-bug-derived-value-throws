@@ -19,6 +19,10 @@
 		},
 	]);
 
+	data.subscribe(newValue => {
+		console.debug("Parent data", newValue);
+	});
+
 	const dispatch = f => {
 		const newValue = f($data);
 

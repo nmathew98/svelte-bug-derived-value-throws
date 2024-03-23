@@ -26,6 +26,10 @@
 		],
 	});
 
+	data.subscribe(newValue => {
+		console.debug("Child data", newValue);
+	});
+
 	const findDeep = (id, item) => {
 		if (!item) {
 			return null;
