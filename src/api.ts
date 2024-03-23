@@ -18,7 +18,7 @@ export interface ThreadMeta {
 const STORAGE = createStorage();
 const THREADS = prefixStorage(STORAGE, "threads");
 
-export const getAllThreads = async () => [];
+export const getAllThreads = async () => [] as Thread[];
 
 export const getThread = async (uuid: string): Promise<Thread> => {
 	const parent = await THREADS.getItem<Thread>(uuid);

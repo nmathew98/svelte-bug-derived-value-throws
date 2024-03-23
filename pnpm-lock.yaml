@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@b.s/svelte-qwery':
+    specifier: ^1.5.6
+    version: 1.5.6(svelte@4.2.12)
   bits-ui:
     specifier: ^0.19.7
     version: 0.19.7(svelte@4.2.12)
@@ -91,6 +94,26 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
+
+  /@b.s/incremental@2.1.8:
+    resolution: {integrity: sha512-k5w8qQPL/B9Vba+CBI4y7pQ7oumBsL7OEiZ2OM8HWBhyPfP7zeTeMxorGV8k4uGJQxvlXvcl9B1DCe/gV5FSKw==}
+    dependencies:
+      immer: 10.0.4
+    dev: false
+
+  /@b.s/svelte-qwery@1.5.6(svelte@4.2.12):
+    resolution: {integrity: sha512-nwIe+YSbyQ3oTkIOwVXCRzvGr9Ab7TaC+eWHNzeafO9B//AnfRC29R8QiPDmgRveowqrI4zbYVttgsqGAMpqIw==}
+    peerDependencies:
+      svelte: ^4.2.11
+    dependencies:
+      '@b.s/incremental': 2.1.8
+      '@b.s/txn': 1.0.4
+      svelte: 4.2.12
+    dev: false
+
+  /@b.s/txn@1.0.4:
+    resolution: {integrity: sha512-t1Vl8tgeVPe7oO6U2VuF9bC0Yqa5jzAiggj+IOdIQyNNLEP3N2IxtO/QoASX1UQ7f/DE+BF7Y0MviRyDRGW/Cg==}
+    dev: false
 
   /@babel/runtime@7.24.1:
     resolution: {integrity: sha512-+BIznRzyqBf+2wCTxcKE3wDjfGeCoVE61KSHGpkzqrLi8qxqFwBeUFyId2cxkTmm55fzDGnm0+yCxaxygrLUnQ==}
@@ -1480,6 +1503,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer@10.0.4:
+    resolution: {integrity: sha512-cuBuGK40P/sk5IzWa9QPUaAdvPHjkk1c+xYsd9oZw+YQQEV+10G0P5uMpGctZZKnyQ+ibRO08bD25nWLmYi2pw==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -1811,8 +1838,8 @@ packages:
     engines: {node: ^16 || ^18 || >= 20}
     dev: false
 
-  /node-fetch-native@1.6.2:
-    resolution: {integrity: sha512-69mtXOFZ6hSkYiXAVB5SqaRvrbITC/NPyqv7yuu/qw0nmgPyYbIMYYNIDhNtwPrzk0ptrimrLz/hhjvm4w5Z+w==}
+  /node-fetch-native@1.6.4:
+    resolution: {integrity: sha512-IhOigYzAKHd244OC0JIMIUrjzctirCmPkaIfhDeGcEETWof5zKYUW7e7MYvChGWh/4CJeXEgsRyGzuF334rOOQ==}
     dev: false
 
   /node-forge@1.3.1:
@@ -1848,11 +1875,11 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
-  /ofetch@1.3.3:
-    resolution: {integrity: sha512-s1ZCMmQWXy4b5K/TW9i/DtiN8Ku+xCiHcjQ6/J/nDdssirrQNOoB165Zu8EqLMA2lln1JUth9a0aW9Ap2ctrUg==}
+  /ofetch@1.3.4:
+    resolution: {integrity: sha512-KLIET85ik3vhEfS+3fDlc/BAZiAp+43QEC/yCo5zkNoY2YaKvNkOaFr/6wCFgFH1kuYQM5pMNi0Tg8koiIemtw==}
     dependencies:
       destr: 2.0.3
-      node-fetch-native: 1.6.2
+      node-fetch-native: 1.6.4
       ufo: 1.5.3
     dev: false
 
@@ -2504,7 +2531,7 @@ packages:
       consola: 3.2.3
       defu: 6.1.4
       mime: 3.0.0
-      node-fetch-native: 1.6.2
+      node-fetch-native: 1.6.4
       pathe: 1.1.2
     dev: false
 
@@ -2559,8 +2586,8 @@ packages:
       listhen: 1.7.2
       lru-cache: 10.2.0
       mri: 1.2.0
-      node-fetch-native: 1.6.2
-      ofetch: 1.3.3
+      node-fetch-native: 1.6.4
+      ofetch: 1.3.4
       ufo: 1.5.3
     transitivePeerDependencies:
       - uWebSockets.js

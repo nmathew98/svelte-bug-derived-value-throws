@@ -9,22 +9,23 @@
 	import { faker } from "@faker-js/faker";
 	import { Textarea } from "$lib/components/ui/textarea";
 	import { Button } from "$lib/components/ui/button";
-	import { upsertThread, type Thread } from "./api";
+	import type { Dispatch } from "@b.s/svelte-qwery";
+	import type { Thread } from "@b.s/qwery-example-api";
 
-	export let dispatch: any;
+	export let dispatch: Dispatch<Thread[]>;
 
 	const name = faker.person.fullName();
 	let content = "";
 
-	const onSubmitNewThread = async () => {
-		const newThread = await upsertThread({
+	const onSubmitNewThread = () => {
+		const newThread = {
 			createdBy: name,
 			content: content,
 			likes: 0,
-		});
+		} as Thread;
 
 		// Dispatch and create a new `Thread`
-		dispatch(allThreads => [newThread, ...allThreads]);
+		dispatch(allThreads => void allThreads.unshift(newThread));
 
 		content = "";
 	};

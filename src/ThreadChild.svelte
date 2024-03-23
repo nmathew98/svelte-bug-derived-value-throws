@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Thread } from "./api";
+	import type { Thread } from "@b.s/qwery-example-api";
 	import {
 		Card,
 		CardContent,
@@ -41,16 +41,23 @@
 	};
 
 	$: child = findDeep(uuid, $currentThread);
+	let rerenders = 0;
+
+	$: if (child) {
+		rerenders = rerenders + 1 * 50;
+	}
 
 	$: onExpand = onClickExpand(child);
 	$: onReply = onClickReply(child);
 </script>
 
-<Card class="cursor-pointer border-2">
+<Card
+	class="cursor-pointer border-2"
+	style={`border-color: hsl(${Math.max(250 - rerenders, 0)}, 100%, 50%)`}>
 	<CardHeader>
 		<CardTitle>{child.createdBy}</CardTitle>
 		<CardDescription class="flex space-x-1">
-			<span>{child.createdAt.toDateString()}</span>
+			<span>{child.createdAt.toDateString()} {rerenders}</span>
 			<span>&middot;</span>
 			<span class="inline-flex items-center space-x-1">
 				<span>{child.likes}</span>

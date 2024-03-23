@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { useQwery } from "./hooks/useQwery";
+	import {
+		useMonitoredFetch,
+		useNetworkMode,
+		useQwery,
+	} from "@b.s/svelte-qwery";
 	import { getAllThreads, upsertThread } from "./api";
 	import { H1 } from "$lib/components/ui/typography";
 	import Thread from "./Thread.svelte";
@@ -8,12 +12,14 @@
 
 	setMode("dark");
 
+	const { connectionStatus } = useNetworkMode();
+	const { isFetching, monitor } = useMonitoredFetch();
+
 	// We have many main `Thread`s and each `Thread` can have zero or more
 	// child `Thread`s
-
 	const { data, dispatch } = useQwery({
 		queryKey: "threads",
-		initialValue: getAllThreads, // Get all main threads
+		initialValue: monitor(getAllThreads), // Get all main threads
 		onChange: async next => {
 			const newItemIdx = next.findIndex(thread => !thread.uuid);
 
@@ -49,5 +55,23 @@
 		{#each allThreads as thread (thread.uuid)}
 			<Thread initialValue={thread} landingDispatch={dispatch} />
 		{/each}
+	</div>
+</div>
+<div class="absolute top-6 right-10">
+	<div class="flex space-x-4">
+		<div
+			class={`px-4 py-3 rounded-full ${$connectionStatus ? "bg-emerald-700" : "bg-rose-700"}`}>
+			<span
+				class={`font-bold ${$connectionStatus ? "text-emerald-400" : "bg-rose-400"}`}>
+				{$connectionStatus ? "Online!" : "Offline!"}
+			</span>
+		</div>
+		<div
+			class={`px-4 py-3 rounded-full ${!$isFetching ? "bg-emerald-700" : "bg-rose-700"}`}>
+			<span
+				class={`font-bold ${!$isFetching ? "text-emerald-400" : "text-rose-400"}`}>
+				{!$isFetching ? "Fetched!" : "Fetching!"}
+			</span>
+		</div>
 	</div>
 </div>
