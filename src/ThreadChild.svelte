@@ -1,16 +1,5 @@
 <script lang="ts">
-	import type { Thread } from "@b.s/qwery-example-api";
-	import {
-		Card,
-		CardContent,
-		CardDescription,
-		CardFooter,
-		CardHeader,
-		CardTitle,
-	} from "$lib/components/ui/card";
-	import { P } from "$lib/components/ui/typography";
-	import { Button } from "$lib/components/ui/button";
-	import { StarFilled } from "svelte-radix";
+	import type { Thread } from "./api";
 	import type { Readable } from "svelte/store";
 
 	export let uuid: string;
@@ -51,33 +40,21 @@
 	$: onReply = onClickReply(child);
 </script>
 
-<Card
-	class="cursor-pointer border-2"
-	style={`border-color: hsl(${Math.max(250 - rerenders, 0)}, 100%, 50%)`}>
-	<CardHeader>
-		<CardTitle>{child.createdBy}</CardTitle>
-		<CardDescription class="flex space-x-1">
-			<span>{child.createdAt.toDateString()} {rerenders}</span>
-			<span>&middot;</span>
-			<span class="inline-flex items-center space-x-1">
-				<span>{child.likes}</span>
-				<span>
-					<StarFilled />
-				</span>
-			</span>
-		</CardDescription>
-	</CardHeader>
-	<CardContent>
-		<P>{child.content}</P>
-	</CardContent>
-	<CardFooter class="flex-col space-y-4">
+<div class="flex-col space-y-4">
+	<div>
+		{child.uuid}
+	</div>
+	<div>
+		{JSON.stringify(child.children, null, 2)}
+	</div>
+	<div class="flex space-x-4">
 		{#if child.children}
-			<Button class="w-full" variant="secondary" on:click={onExpand}>
-				View whole thread
-			</Button>
+			<div>
+				<button on:click={onExpand}> View whole thread </button>
+			</div>
 		{/if}
-		<Button variant="default" class="w-full" on:click={onReply}>
-			Reply
-		</Button>
-	</CardFooter>
-</Card>
+		<div>
+			<button on:click={onReply}>Reply</button>
+		</div>
+	</div>
+</div>

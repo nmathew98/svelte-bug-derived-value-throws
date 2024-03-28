@@ -8,9 +8,6 @@
 	import { H1 } from "$lib/components/ui/typography";
 	import Thread from "./Thread.svelte";
 	import NewThread from "./NewThread.svelte";
-	import { ModeWatcher, setMode } from "mode-watcher";
-
-	setMode("dark");
 
 	const { connectionStatus } = useNetworkMode();
 	const { isFetching, monitor } = useMonitoredFetch();
@@ -46,32 +43,13 @@
 	);
 </script>
 
-<ModeWatcher />
 <div class="flex justify-center my-8 mx-4 sm:mx-0">
 	<div class="flex-col space-y-8">
-		<H1>My Feed</H1>
+		<h1>My Feed</h1>
 		<NewThread {dispatch} />
 
 		{#each allThreads as thread (thread.uuid)}
 			<Thread initialValue={thread} landingDispatch={dispatch} />
 		{/each}
-	</div>
-</div>
-<div class="absolute top-6 right-10">
-	<div class="flex space-x-4">
-		<div
-			class={`px-4 py-3 rounded-full ${$connectionStatus ? "bg-emerald-700" : "bg-rose-700"}`}>
-			<span
-				class={`font-bold ${$connectionStatus ? "text-emerald-400" : "bg-rose-400"}`}>
-				{$connectionStatus ? "Online!" : "Offline!"}
-			</span>
-		</div>
-		<div
-			class={`px-4 py-3 rounded-full ${!$isFetching ? "bg-emerald-700" : "bg-rose-700"}`}>
-			<span
-				class={`font-bold ${!$isFetching ? "text-emerald-400" : "text-rose-400"}`}>
-				{!$isFetching ? "Fetched!" : "Fetching!"}
-			</span>
-		</div>
 	</div>
 </div>

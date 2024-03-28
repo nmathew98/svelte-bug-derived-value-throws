@@ -2,28 +2,9 @@
 	import { type Thread, upsertThread } from "./api";
 	import { type Dispatch, useQwery } from "@b.s/svelte-qwery";
 	import { faker } from "@faker-js/faker";
-	import {
-		Dialog,
-		DialogContent,
-		DialogDescription,
-		DialogFooter,
-		DialogHeader,
-		DialogTitle,
-		DialogTrigger,
-	} from "$lib/components/ui/dialog";
-	import {
-		Card,
-		CardContent,
-		CardDescription,
-		CardFooter,
-		CardHeader,
-		CardTitle,
-	} from "$lib/components/ui/card";
 	import { Button } from "$lib/components/ui/button";
-	import { P } from "$lib/components/ui/typography";
 	import { Input } from "$lib/components/ui/input";
 	import ThreadChild from "./ThreadChild.svelte";
-	import { StarFilled } from "svelte-radix";
 	import { writable, derived } from "svelte/store";
 
 	export let initialValue: Thread;
@@ -201,58 +182,19 @@
 </script>
 
 {#if data}
-	<Dialog>
-		<DialogTrigger asChild let:builder>
-			<div use:builder.action {...builder}>
-				<Card
-					class="cursor-pointer max-w-2xl border-2"
-					style={`border-color: hsl(${Math.max(250 - rerenders, 0)}, 100%, 50%);`}>
-					<CardHeader>
-						<CardTitle>{$data?.createdBy} {rerenders}</CardTitle>
-						<CardDescription class="flex space-x-1">
-							<span>{$data?.createdAt.toDateString()}</span>
-							<span>&middot;</span>
-							<span class="inline-flex items-center space-x-1">
-								<span>{$data?.likes}</span>
-								<span>
-									<StarFilled />
-								</span>
-							</span>
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<P>{$data?.content}</P>
-					</CardContent>
-					<CardFooter>
-						<Button class="w-full">View whole thread</Button>
-					</CardFooter>
-				</Card>
-			</div>
-		</DialogTrigger>
-		<DialogContent>
-			<DialogHeader>
-				<DialogTitle>View whole thread</DialogTitle>
-				<DialogDescription>
-					{$currentThread.content}
-				</DialogDescription>
-			</DialogHeader>
-			{#if $currentThread.children}
-				<div class="max-h-[50dvh] overflow-scroll flex-col space-y-8">
-					<!--
-						We can't just pass the child, `ThreadChild` will not rerender.
-						See:
-						- https://stackoverflow.com/a/63372198
-						- https://github.com/sveltejs/svelte/issues/3212#issuecomment-510263274
-
-						Having a separate derived store or reactive variable for the children
-						does not seem to work either
-
-						It also means every child will be rerendered since the store has been
-						updated
-
-						A reactive expression is reevaluated correctly, just the children are not
-						rerendered in the `each` block
-					-->
+	<div class="flex-col space-y-4">
+		<div>
+			<span>{$data?.uuid}</span>
+		</div>
+		<div>
+			<span>{JSON.stringify($data?.children, null, 2)}</span>
+		</div>
+		<div>
+			<span>Current thread: {$currentThread.uuid}</span>
+		</div>
+		<div>
+			<span>
+				{#if $currentThread.children}
 					{#each $currentThread?.children as child (child.uuid)}
 						<ThreadChild
 							uuid={child.uuid}
@@ -260,50 +202,38 @@
 							onClickExpand={makeOnClickExpandThread}
 							onClickReply={makeOnClickReply} />
 					{/each}
-				</div>
-			{/if}
-			<div class="flex-col space-y-2">
-				<!--
-					TODO: when replying to a child, `content` does not get cleared even though
-					it is reassigned, unsure why
-
-					reassigning `replyTo` and `content` also does not to work
-
-					Unsure if this is a bug with Svelte or something wrong with the implementation,
-					when not replying, `content` is cleared correctly
-				-->
-				<Input
-					type="text"
-					bind:value={content}
-					on:keydown={onKeyDown}
-					placeholder={replyTo
-						? `Reply to ${replyTo.createdBy}`
-						: "Share a thought...?"} />
-				{#if replyTo}
-					<Button
-						variant="ghost"
-						size="sm"
-						on:click={replyToMainThread}>
-						Reply to main thread
-					</Button>
 				{/if}
-			</div>
-			<DialogFooter>
-				{#if $currentThread.uuid !== initialValue.uuid}
-					<Button
-						on:click={onClickReturnToMainThread}
-						variant="secondary"
-						type="reset">
-						View main thread
-					</Button>
-				{/if}
-				<Button
-					disabled={!content}
-					on:click={onSubmitNewThread}
-					type="submit">
-					Submit
+			</span>
+		</div>
+		<div>
+			<Input
+				type="text"
+				bind:value={content}
+				on:keydown={onKeyDown}
+				placeholder={replyTo
+					? `Reply to ${replyTo.createdBy}`
+					: "Share a thought...?"} />
+			{#if replyTo}
+				<Button variant="ghost" size="sm" on:click={replyToMainThread}>
+					Reply to main thread
 				</Button>
-			</DialogFooter>
-		</DialogContent>
-	</Dialog>
+			{/if}
+		</div>
+		<div>
+			{#if $currentThread.uuid !== initialValue.uuid}
+				<Button
+					on:click={onClickReturnToMainThread}
+					variant="secondary"
+					type="reset">
+					View main thread
+				</Button>
+			{/if}
+			<Button
+				disabled={!content}
+				on:click={onSubmitNewThread}
+				type="submit">
+				Submit
+			</Button>
+		</div>
+	</div>
 {/if}

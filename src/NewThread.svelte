@@ -1,16 +1,7 @@
 <script lang="ts">
-	import {
-		Card,
-		CardHeader,
-		CardContent,
-		CardTitle,
-		CardFooter,
-	} from "$lib/components/ui/card";
 	import { faker } from "@faker-js/faker";
-	import { Textarea } from "$lib/components/ui/textarea";
-	import { Button } from "$lib/components/ui/button";
 	import type { Dispatch } from "@b.s/svelte-qwery";
-	import type { Thread } from "@b.s/qwery-example-api";
+	import type { Thread } from "./api";
 
 	export let dispatch: Dispatch<Thread[]>;
 
@@ -41,19 +32,19 @@
 	};
 </script>
 
-<Card class="w-[42rem] border-2">
-	<CardHeader>
-		<CardTitle>{name}</CardTitle>
-	</CardHeader>
-	<CardContent>
-		<Textarea
+<div class="flex-col space-y-4">
+	<div>
+		<h2>{name}</h2>
+	</div>
+	<div>
+		<textarea
 			bind:value={content}
 			on:keydown={onKeyDown}
 			placeholder="Share a thought...?" />
-	</CardContent>
-	<CardFooter>
-		<Button on:click={onSubmitNewThread} disabled={!content} class="w-full">
+	</div>
+	<div>
+		<button on:click={onSubmitNewThread} disabled={!content}>
 			Submit
-		</Button>
-	</CardFooter>
-</Card>
+		</button>
+	</div>
+</div>
