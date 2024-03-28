@@ -202,6 +202,83 @@
 
 {#if data}
 	<Dialog>
+		<!-- Content updates correctly here when using a `div` -->
+		<div>
+			<DialogHeader>
+				<DialogTitle>View whole thread</DialogTitle>
+				<DialogDescription>
+					{$currentThread.content}
+				</DialogDescription>
+			</DialogHeader>
+			{#if $currentThread.children}
+				<div class="max-h-[50dvh] overflow-scroll flex-col space-y-8">
+					<!--
+						We can't just pass the child, `ThreadChild` will not rerender.
+						See:
+						- https://stackoverflow.com/a/63372198
+						- https://github.com/sveltejs/svelte/issues/3212#issuecomment-510263274
+
+						Having a separate derived store or reactive variable for the children
+						does not seem to work either
+
+						It also means every child will be rerendered since the store has been
+						updated
+
+						A reactive expression is reevaluated correctly, just the children are not
+						rerendered in the `each` block
+					-->
+					{#each $currentThread?.children as child (child.uuid)}
+						<ThreadChild
+							uuid={child.uuid}
+							{currentThread}
+							onClickExpand={makeOnClickExpandThread}
+							onClickReply={makeOnClickReply} />
+					{/each}
+				</div>
+			{/if}
+			<div class="flex-col space-y-2">
+				<!--
+					TODO: when replying to a child, `content` does not get cleared even though
+					it is reassigned, unsure why
+
+					reassigning `replyTo` and `content` also does not to work
+
+					Unsure if this is a bug with Svelte or something wrong with the implementation,
+					when not replying, `content` is cleared correctly
+				-->
+				<Input
+					type="text"
+					bind:value={content}
+					on:keydown={onKeyDown}
+					placeholder={replyTo
+						? `Reply to ${replyTo.createdBy}`
+						: "Share a thought...?"} />
+				{#if replyTo}
+					<Button
+						variant="ghost"
+						size="sm"
+						on:click={replyToMainThread}>
+						Reply to main thread
+					</Button>
+				{/if}
+			</div>
+			<DialogFooter>
+				{#if $currentThread.uuid !== initialValue.uuid}
+					<Button
+						on:click={onClickReturnToMainThread}
+						variant="secondary"
+						type="reset">
+						View main thread
+					</Button>
+				{/if}
+				<Button
+					disabled={!content}
+					on:click={onSubmitNewThread}
+					type="submit">
+					Submit
+				</Button>
+			</DialogFooter>
+		</div>
 		<DialogTrigger asChild let:builder>
 			<div use:builder.action {...builder}>
 				<Card
@@ -229,6 +306,7 @@
 				</Card>
 			</div>
 		</DialogTrigger>
+		<!-- Content does not update correctly here when using a `DialogContent` -->
 		<DialogContent>
 			<DialogHeader>
 				<DialogTitle>View whole thread</DialogTitle>
